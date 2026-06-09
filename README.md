@@ -86,7 +86,7 @@ Tecnologías: Vanilla CSS (Flexbox y Grid nativo), Unicode/Emojis para iconos.
 Análisis: Optó por un enfoque corporativo clásico y minimalista, estructurando todo el diseño con estilos puros escritos desde cero dentro del documento, sin dependencias externas.
 
 #### Capturas de pantalla (OpenCode):
-![Vista Principal OpenCode](captura_opencode_1png)
+![Vista Principal OpenCode](captura_opencode_1.png)
 ![Vista Sobre Nosotros OpenCode](captura_opencode_2.png)
 ![Vista Servicios OpenCode](captura_opencode_3.png)
 ![Vista Testimonios OpenCode](captura_opencode_4.png)
