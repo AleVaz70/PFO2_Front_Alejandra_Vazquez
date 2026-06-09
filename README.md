@@ -72,11 +72,11 @@ Tecnologías: Tailwind CSS via CDN, Lucide Icons, Vanilla JavaScript.
 Análisis: Resolvió la interfaz con una estética moderna y neón, utilizando componentes responsivos fluidos y librerías de iconos externos.
 
 #### Captura de pantalla (Claude):
-![Vista Principal Claude](captura_claude1.png)
-![Vista Sobre Nosotros Claude](captura_claude2.png)
-![Vista Servicios Claude](captura_claude3.png)
-![Vista Testimonios Claude](captura_claude4.png)
-![Vista Contacto y Pie de Página Claude](captura_claude5.png)
+![Vista Principal Claude](captura_claude_1.png)
+![Vista Sobre Nosotros Claude](captura_claude_2.png)
+![Vista Servicios Claude](captura_claude_3.png)
+![Vista Testimonios Claude](captura_claude_4.png)
+![Vista Contacto y Pie de Página Claude](captura_claude_5.png)
 
 💻 Agente 2: OpenCode
 Modelo: ChatGPT Browser
@@ -86,10 +86,10 @@ Tecnologías: Vanilla CSS (Flexbox y Grid nativo), Unicode/Emojis para iconos.
 Análisis: Optó por un enfoque corporativo clásico y minimalista, estructurando todo el diseño con estilos puros escritos desde cero dentro del documento, sin dependencias externas.
 
 #### Capturas de pantalla (OpenCode):
-![Vista Principal OpenCode](captura_opencode1.png)
-![Vista Sobre Nosotros OpenCode](captura_opencode2.png)
-![Vista Servicios OpenCode](captura_opencode3.png)
-![Vista Testimonios OpenCode](captura_opencode4.png)
-![Vista Contacto y Pie de Página OpenCode](captura_opencode5.png)
+![Vista Principal OpenCode](captura_opencode_1png)
+![Vista Sobre Nosotros OpenCode](captura_opencode_2.png)
+![Vista Servicios OpenCode](captura_opencode_3.png)
+![Vista Testimonios OpenCode](captura_opencode_4.png)
+![Vista Contacto y Pie de Página OpenCode](captura_opencode_5.png)
 
 
