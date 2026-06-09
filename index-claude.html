@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus Digital — Agencia de Transformación Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  /* ─── RESET & BASE ─────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  :root {
+    --bg:        #080c14;
+    --bg2:       #0d1422;
+    --bg3:       #111827;
+    --cyan:      #00e5ff;
+    --cyan-dim:  #00b8cc;
+    --violet:    #9b5de5;
+    --violet-dim:#7b44c0;
+    --white:     #f0f4ff;
+    --gray:      #8899b4;
+    --gray-dim:  #3d4f6a;
+    --card-bg:   #0f1929;
+    --border:    rgba(0,229,255,.12);
+    --glow-c:    0 0 28px rgba(0,229,255,.35);
+    --glow-v:    0 0 28px rgba(155,93,229,.4);
+    --ff-head:   'Syne', sans-serif;
+    --ff-body:   'DM Sans', sans-serif;
+    --r:         12px;
+    --r-lg:      20px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--ff-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999;
+    opacity: .55;
+  }
+
+  /* ─── SCROLLBAR ─────────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--gray-dim); border-radius: 99px; }
+
+  /* ─── TYPOGRAPHY HELPERS ────────────────────────────────── */
+  h1,h2,h3,h4 { font-family: var(--ff-head); line-height: 1.15; }
+  .tag {
+    display: inline-block;
+    font-family: var(--ff-head);
+    font-size: .72rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    background: rgba(0,229,255,.08);
+    border: 1px solid var(--border);
+    padding: .35em 1em;
+    border-radius: 99px;
+    margin-bottom: 1.2rem;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 800;
+  }
+  .section-sub {
+    color: var(--gray);
+    max-width: 52ch;
+    margin-top: .75rem;
+  }
+  .gradient-text {
+    background: linear-gradient(120deg, var(--cyan) 0%, var(--violet) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ─── LAYOUT HELPERS ────────────────────────────────────── */
+  .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+  section { padding: 110px 0; }
+
+  /* ─── GLOW DOTS ─────────────────────────────────────────── */
+  .glow-orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(90px); pointer-events: none; z-index: 0;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     HEADER
+  ══════════════════════════════════════════════════════════ */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 1.1rem 0;
+    background: rgba(8,12,20,.72);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+    transition: padding .3s;
+  }
+  header.scrolled { padding: .7rem 0; }
+  header .container {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    display: flex; align-items: center; gap: .6rem;
+    text-decoration: none;
+    font-family: var(--ff-head); font-weight: 800;
+    font-size: 1.35rem; color: var(--white);
+    letter-spacing: -.01em;
+  }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .9rem; font-weight: 800; color: #fff;
+    box-shadow: var(--glow-c);
+  }
+  nav { display: flex; align-items: center; gap: 2rem; }
+  nav a {
+    color: var(--gray); text-decoration: none;
+    font-size: .9rem; font-weight: 500;
+    transition: color .2s;
+    position: relative;
+  }
+  nav a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--cyan);
+    transform: scaleX(0); transition: transform .25s;
+  }
+  nav a:hover { color: var(--white); }
+  nav a:hover::after { transform: scaleX(1); }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    color: #080c14 !important; font-weight: 700 !important;
+    padding: .55em 1.4em; border-radius: 99px;
+    box-shadow: var(--glow-c);
+    transition: opacity .2s, transform .2s !important;
+  }
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover { opacity: .88; transform: translateY(-1px) !important; }
+
+  /* hamburger */
+  .burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+  .burger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: .3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width:768px) {
+    .burger { display: flex; }
+    nav {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: rgba(8,12,20,.97);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column; align-items: flex-start;
+      gap: 0; padding: 1rem 5%;
+      clip-path: inset(0 0 100% 0); transition: clip-path .35s ease;
+    }
+    nav.open { clip-path: inset(0 0 -10px 0); }
+    nav a { padding: .85rem 0; width: 100%; border-bottom: 1px solid rgba(255,255,255,.04); }
+    .nav-cta { border-bottom: none !important; margin-top: .5rem; }
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     HERO
+  ══════════════════════════════════════════════════════════ */
+  #inicio {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    position: relative;
+    padding-top: 90px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 15% 60%, rgba(0,229,255,.07) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 40% at 80% 20%, rgba(155,93,229,.1) 0%, transparent 60%);
+  }
+  .grid-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black, transparent);
+  }
+  .hero-content {
+    position: relative; z-index: 1;
+    max-width: 760px;
+  }
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: .7rem; margin-bottom: 1.5rem;
+  }
+  .hero-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: var(--glow-c); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+
+  .hero-eyebrow span { font-size: .82rem; color: var(--cyan); font-family: var(--ff-head); letter-spacing: .08em; text-transform: uppercase; }
+
+  #inicio h1 {
+    font-size: clamp(2.6rem, 6vw, 5.2rem);
+    font-weight: 800;
+    letter-spacing: -.025em;
+    line-height: 1.08;
+    margin-bottom: 1.5rem;
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.18rem);
+    color: var(--gray);
+    max-width: 52ch;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: .55rem;
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    color: #080c14; font-family: var(--ff-head);
+    font-weight: 700; font-size: 1rem;
+    padding: .85em 2em; border-radius: 99px;
+    text-decoration: none; border: none; cursor: pointer;
+    box-shadow: 0 4px 30px rgba(0,229,255,.3);
+    transition: transform .2s, box-shadow .2s, opacity .2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,229,255,.45); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: .55rem;
+    border: 1px solid var(--border);
+    color: var(--white); font-family: var(--ff-head);
+    font-weight: 600; font-size: 1rem;
+    padding: .82em 1.8em; border-radius: 99px;
+    text-decoration: none; background: rgba(255,255,255,.03);
+    transition: border-color .2s, background .2s;
+  }
+  .btn-secondary:hover { border-color: var(--cyan); background: rgba(0,229,255,.05); }
+
+  .hero-stats {
+    margin-top: 4rem;
+    display: flex; flex-wrap: wrap; gap: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: var(--ff-head); font-weight: 800;
+    font-size: 2.2rem; color: var(--white);
+    background: linear-gradient(120deg, var(--cyan), var(--violet));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .stat-label { font-size: .82rem; color: var(--gray); margin-top: .1rem; }
+
+  /* floating card */
+  .hero-visual {
+    position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+    width: 42%; max-width: 520px;
+    z-index: 1;
+    display: none;
+  }
+  @media(min-width:900px){ .hero-visual { display: block; } }
+  .float-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 1.6rem 1.8rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 24px 64px rgba(0,0,0,.5);
+    animation: float 5s ease-in-out infinite;
+    position: relative;
+  }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+  .fc-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+  .fc-badge { background: rgba(0,229,255,.12); color: var(--cyan); font-size: .75rem; font-family: var(--ff-head); padding: .3em .9em; border-radius: 99px; border: 1px solid var(--border); }
+  .fc-dots { display: flex; gap: 6px; }
+  .fc-dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .fc-dots span:nth-child(1){background:#ff5f57}
+  .fc-dots span:nth-child(2){background:#febc2e}
+  .fc-dots span:nth-child(3){background:#28c840}
+  .fc-metric { margin-bottom: 1rem; }
+  .fc-metric-label { font-size: .78rem; color: var(--gray); margin-bottom: .4rem; }
+  .fc-bar { height: 6px; background: rgba(255,255,255,.06); border-radius: 99px; overflow: hidden; }
+  .fc-bar-fill { height: 100%; border-radius: 99px; animation: growBar 2s ease forwards; }
+  @keyframes growBar { from{width:0} }
+  .fc-num-row { display: flex; gap: 1.2rem; margin-top: 1.4rem; }
+  .fc-num { flex: 1; background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: var(--r); padding: .9rem 1rem; }
+  .fc-num-val { font-family: var(--ff-head); font-size: 1.45rem; font-weight: 800; }
+  .fc-num-lbl { font-size: .72rem; color: var(--gray); margin-top: .15rem; }
+  .sparkle {
+    position: absolute;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--cyan); box-shadow: var(--glow-c);
+    animation: sparkle 3s infinite;
+  }
+  .sparkle:nth-child(2){ animation-delay:.8s; background: var(--violet); box-shadow: var(--glow-v); }
+  @keyframes sparkle { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+  /* ══════════════════════════════════════════════════════════
+     SOBRE NOSOTROS
+  ══════════════════════════════════════════════════════════ */
+  #sobre-nosotros {
+    background: var(--bg2);
+    position: relative; overflow: hidden;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  @media(max-width:768px){ .about-grid { grid-template-columns: 1fr; gap: 3rem; } }
+  .about-text .section-sub { max-width: none; }
+  .about-list { margin-top: 2rem; display: flex; flex-direction: column; gap: .9rem; }
+  .about-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    transition: border-color .25s;
+  }
+  .about-item:hover { border-color: rgba(0,229,255,.3); }
+  .about-icon {
+    width: 38px; height: 38px; border-radius: 8px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .about-icon.c { background: rgba(0,229,255,.1); }
+  .about-icon.v { background: rgba(155,93,229,.1); }
+  .about-icon.g { background: rgba(0,229,255,.08); }
+  .about-item-text h4 { font-size: .95rem; font-weight: 700; margin-bottom: .2rem; }
+  .about-item-text p { font-size: .85rem; color: var(--gray); line-height: 1.5; }
+
+  /* illustration */
+  .about-illustration { position: relative; }
+  .about-svg-wrap {
+    position: relative; border-radius: var(--r-lg); overflow: hidden;
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--card-bg) 0%, #0a1220 100%);
+    padding: 2.5rem;
+    box-shadow: 0 32px 80px rgba(0,0,0,.5);
+  }
+  .about-svg-wrap::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--violet), transparent);
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     SERVICIOS
+  ══════════════════════════════════════════════════════════ */
+  #servicios { position: relative; overflow: hidden; }
+  .services-header { text-align: center; margin-bottom: 4rem; }
+  .services-header .section-sub { margin: .75rem auto 0; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 1.5rem;
+  }
+  .service-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 2.2rem 2rem;
+    position: relative; overflow: hidden;
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+    cursor: default;
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--violet));
+    transform: scaleX(0); transition: transform .35s;
+    transform-origin: left;
+  }
+  .service-card:hover { transform: translateY(-6px); border-color: rgba(0,229,255,.25); box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon {
+    width: 54px; height: 54px; border-radius: 14px;
+    background: linear-gradient(135deg, rgba(0,229,255,.15), rgba(155,93,229,.1));
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 1.5rem;
+  }
+  .service-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: .65rem; }
+  .service-card p { font-size: .9rem; color: var(--gray); line-height: 1.65; }
+  .service-link {
+    display: inline-flex; align-items: center; gap: .4rem;
+    margin-top: 1.4rem; font-size: .85rem; font-weight: 600;
+    color: var(--cyan); text-decoration: none;
+    transition: gap .2s;
+  }
+  .service-link:hover { gap: .7rem; }
+
+  /* ══════════════════════════════════════════════════════════
+     TESTIMONIOS
+  ══════════════════════════════════════════════════════════ */
+  #testimonios {
+    background: var(--bg2);
+    position: relative; overflow: hidden;
+  }
+  .testimonios-header { text-align: center; margin-bottom: 4rem; }
+  .testimonios-header .section-sub { margin: .75rem auto 0; }
+  .testimonios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .testi-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 2rem;
+    position: relative;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .testi-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,.4); }
+  .testi-quote {
+    font-size: 2.5rem; line-height: 1;
+    color: var(--cyan); font-family: Georgia, serif;
+    margin-bottom: .8rem; opacity: .6;
+  }
+  .testi-text {
+    font-size: .95rem; color: var(--gray); line-height: 1.7;
+    margin-bottom: 1.5rem; font-style: italic;
+  }
+  .testi-stars { display: flex; gap: 3px; margin-bottom: 1.2rem; }
+  .testi-stars span { color: #fbbf24; font-size: 1rem; }
+  .testi-author { display: flex; align-items: center; gap: .9rem; }
+  .testi-avatar {
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 2px solid var(--border);
+    overflow: hidden; flex-shrink: 0;
+  }
+  .testi-avatar svg { width: 100%; height: 100%; }
+  .testi-name { font-family: var(--ff-head); font-weight: 700; font-size: .92rem; }
+  .testi-role { font-size: .78rem; color: var(--gray); margin-top: .1rem; }
+
+  /* ══════════════════════════════════════════════════════════
+     CONTACTO
+  ══════════════════════════════════════════════════════════ */
+  #contacto { position: relative; overflow: hidden; }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 4rem; align-items: start;
+  }
+  @media(max-width:860px){ .contact-grid { grid-template-columns: 1fr; gap: 3rem; } }
+  .contact-info h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; margin-bottom: .8rem; }
+  .contact-info p { color: var(--gray); margin-bottom: 2rem; }
+  .contact-items { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-item { display: flex; align-items: center; gap: 1rem; }
+  .contact-item-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: rgba(0,229,255,.08); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+  }
+  .contact-item span { font-size: .9rem; color: var(--gray); }
+  .contact-item strong { display: block; font-size: .95rem; color: var(--white); font-weight: 600; }
+
+  /* form */
+  .contact-form {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 2.5rem;
+    position: relative;
+  }
+  .contact-form::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--violet));
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media(max-width:500px){ .form-row { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1.2rem; }
+  .field label { font-size: .82rem; font-weight: 600; color: var(--gray); letter-spacing: .04em; text-transform: uppercase; }
+  .field input, .field textarea, .field select {
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: .8rem 1rem;
+    color: var(--white);
+    font-family: var(--ff-body); font-size: .95rem;
+    outline: none;
+    transition: border-color .25s, box-shadow .25s;
+    width: 100%;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 3px rgba(0,229,255,.1);
+  }
+  .field textarea { min-height: 120px; resize: vertical; }
+  .field select option { background: var(--bg3); }
+  .field input::placeholder, .field textarea::placeholder { color: var(--gray-dim); }
+  .form-submit {
+    display: inline-flex; align-items: center; gap: .55rem;
+    width: 100%; justify-content: center;
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    color: #080c14; font-family: var(--ff-head);
+    font-weight: 700; font-size: 1rem;
+    padding: 1em 2em; border-radius: 99px;
+    border: none; cursor: pointer;
+    box-shadow: 0 4px 30px rgba(0,229,255,.3);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,229,255,.45); }
+
+  /* ══════════════════════════════════════════════════════════
+     FOOTER
+  ══════════════════════════════════════════════════════════ */
+  footer {
+    background: #050810;
+    border-top: 1px solid var(--border);
+    padding: 3.5rem 0 2rem;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+  @media(max-width:860px){ .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:500px){ .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .footer-brand p { color: var(--gray); font-size: .88rem; margin-top: .9rem; max-width: 28ch; line-height: 1.65; }
+  .footer-social { display: flex; gap: .7rem; margin-top: 1.3rem; }
+  .social-btn {
+    width: 38px; height: 38px; border-radius: 8px;
+    background: rgba(255,255,255,.04); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; color: var(--gray); font-size: 1rem;
+    transition: background .2s, color .2s, border-color .2s;
+  }
+  .social-btn:hover { background: rgba(0,229,255,.1); color: var(--cyan); border-color: rgba(0,229,255,.3); }
+  .footer-col h5 { font-family: var(--ff-head); font-size: .88rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--white); margin-bottom: 1.1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+  .footer-col ul li a { color: var(--gray); text-decoration: none; font-size: .88rem; transition: color .2s; }
+  .footer-col ul li a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-bottom p { font-size: .82rem; color: var(--gray-dim); }
+  .footer-bottom-links { display: flex; gap: 1.5rem; }
+  .footer-bottom-links a { font-size: .82rem; color: var(--gray-dim); text-decoration: none; transition: color .2s; }
+  .footer-bottom-links a:hover { color: var(--gray); }
+
+  /* ─── REVEAL ANIMATION ──────────────────────────────────── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ HEADER ══════════════════════ -->
+<header id="header">
+  <div class="container">
+    <a href="#inicio" class="logo">
+      <div class="logo-icon">N</div>
+      Nexus Digital
+    </a>
+    <button class="burger" id="burger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="nav">
+      <a href="#inicio">Inicio</a>
+      <a href="#sobre-nosotros">Sobre Nosotros</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#testimonios">Testimonios</a>
+      <a href="#contacto" class="nav-cta">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<section id="inicio">
+  <div class="hero-bg"></div>
+  <div class="grid-lines"></div>
+  <div class="container" style="position:relative;z-index:1">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-dot"></div>
+        <span>Agencia de Transformación Digital</span>
+      </div>
+      <h1>Llevamos tu <span class="gradient-text">visión digital</span> al siguiente nivel</h1>
+      <p class="hero-sub">En Nexus Digital convertimos ideas en experiencias digitales que generan resultados reales. Estrategia, tecnología y creatividad unidos para hacer crecer tu negocio.</p>
+      <div class="hero-actions">
+        <a href="#contacto" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+          Impulsar mi negocio
+        </a>
+        <a href="#servicios" class="btn-secondary">
+          Ver servicios
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">+150</div>
+          <div class="stat-label">Proyectos entregados</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">98%</div>
+          <div class="stat-label">Clientes satisfechos</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">7+</div>
+          <div class="stat-label">Años de experiencia</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- floating card -->
+  <div class="hero-visual">
+    <div class="float-card">
+      <div class="sparkle" style="top:12px;right:18px"></div>
+      <div class="sparkle" style="bottom:16px;left:14px"></div>
+      <div class="fc-header">
+        <div class="fc-dots"><span></span><span></span><span></span></div>
+        <span class="fc-badge">Dashboard live</span>
+      </div>
+      <div class="fc-metric">
+        <div class="fc-metric-label">Tráfico Orgánico</div>
+        <div class="fc-bar"><div class="fc-bar-fill" style="width:82%;background:linear-gradient(90deg,#00e5ff,#9b5de5)"></div></div>
+      </div>
+      <div class="fc-metric">
+        <div class="fc-metric-label">Conversiones</div>
+        <div class="fc-bar"><div class="fc-bar-fill" style="width:67%;background:linear-gradient(90deg,#9b5de5,#00e5ff);animation-delay:.3s"></div></div>
+      </div>
+      <div class="fc-metric">
+        <div class="fc-metric-label">Retención de usuarios</div>
+        <div class="fc-bar"><div class="fc-bar-fill" style="width:91%;background:linear-gradient(90deg,#00e5ff,#00b8cc);animation-delay:.6s"></div></div>
+      </div>
+      <div class="fc-num-row">
+        <div class="fc-num">
+          <div class="fc-num-val gradient-text">+34%</div>
+          <div class="fc-num-lbl">Crecimiento</div>
+        </div>
+        <div class="fc-num">
+          <div class="fc-num-val gradient-text">2.8x</div>
+          <div class="fc-num-lbl">ROI Medio</div>
+        </div>
+        <div class="fc-num">
+          <div class="fc-num-val gradient-text">#1</div>
+          <div class="fc-num-lbl">Posición SEO</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ SOBRE NOSOTROS ══════════════════════ -->
+<section id="sobre-nosotros">
+  <div class="glow-orb" style="width:500px;height:500px;background:rgba(155,93,229,.06);top:-100px;right:-100px"></div>
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <span class="tag">Sobre Nosotros</span>
+        <h2 class="section-title">Más que una agencia, <span class="gradient-text">somos tu equipo</span></h2>
+        <p class="section-sub">Desde 2017, Nexus Digital impulsa la presencia digital de marcas y empresas que quieren marcar la diferencia. Combinamos talento creativo con tecnología de vanguardia para construir soluciones que escalan.</p>
+        <div class="about-list">
+          <div class="about-item">
+            <div class="about-icon c">🚀</div>
+            <div class="about-item-text">
+              <h4>Visión orientada al resultado</h4>
+              <p>Cada decisión estratégica que tomamos está alineada con los objetivos de negocio reales de nuestros clientes.</p>
+            </div>
+          </div>
+          <div class="about-item">
+            <div class="about-icon v">🤝</div>
+            <div class="about-item-text">
+              <h4>Partnership genuino</h4>
+              <p>No somos proveedores, somos aliados. Nos integramos a tu equipo y co-creamos el camino hacia el éxito digital.</p>
+            </div>
+          </div>
+          <div class="about-item">
+            <div class="about-icon g">⚡</div>
+            <div class="about-item-text">
+              <h4>Agilidad e innovación constante</h4>
+              <p>Adoptamos nuevas tecnologías antes que la competencia para que siempre estés un paso adelante.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="about-illustration reveal reveal-delay-2">
+        <div class="about-svg-wrap">
+          <svg viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- grid bg -->
+            <defs>
+              <linearGradient id="gc" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#9b5de5"/></linearGradient>
+              <linearGradient id="gv" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#9b5de5"/><stop offset="100%" stop-color="#00e5ff"/></linearGradient>
+            </defs>
+            <!-- hexagons -->
+            <polygon points="210,20 260,48 260,104 210,132 160,104 160,48" fill="none" stroke="url(#gc)" stroke-width="1.5" opacity=".6"/>
+            <polygon points="210,50 243,68 243,104 210,122 177,104 177,68" fill="rgba(0,229,255,.05)" stroke="url(#gc)" stroke-width="1" opacity=".4"/>
+            <!-- central icon -->
+            <circle cx="210" cy="86" r="28" fill="rgba(0,229,255,.1)" stroke="url(#gc)" stroke-width="1.5"/>
+            <text x="210" y="93" text-anchor="middle" font-size="22" fill="url(#gc)">⚡</text>
+            <!-- nodes -->
+            <circle cx="80" cy="160" r="18" fill="rgba(155,93,229,.15)" stroke="url(#gv)" stroke-width="1.2"/>
+            <text x="80" y="166" text-anchor="middle" font-size="13" fill="#9b5de5">🌐</text>
+            <circle cx="340" cy="160" r="18" fill="rgba(0,229,255,.12)" stroke="url(#gc)" stroke-width="1.2"/>
+            <text x="340" y="166" text-anchor="middle" font-size="13" fill="#00e5ff">📈</text>
+            <circle cx="130" cy="280" r="18" fill="rgba(0,229,255,.1)" stroke="url(#gc)" stroke-width="1.2"/>
+            <text x="130" y="286" text-anchor="middle" font-size="13" fill="#00e5ff">🔍</text>
+            <circle cx="290" cy="280" r="18" fill="rgba(155,93,229,.12)" stroke="url(#gv)" stroke-width="1.2"/>
+            <text x="290" y="286" text-anchor="middle" font-size="13" fill="#9b5de5">🎯</text>
+            <!-- connections -->
+            <line x1="210" y1="114" x2="80" y2="142" stroke="url(#gc)" stroke-width="1" stroke-dasharray="4 4" opacity=".5"/>
+            <line x1="210" y1="114" x2="340" y2="142" stroke="url(#gc)" stroke-width="1" stroke-dasharray="4 4" opacity=".5"/>
+            <line x1="80" y1="178" x2="130" y2="262" stroke="url(#gv)" stroke-width="1" stroke-dasharray="4 4" opacity=".4"/>
+            <line x1="340" y1="178" x2="290" y2="262" stroke="url(#gc)" stroke-width="1" stroke-dasharray="4 4" opacity=".4"/>
+            <line x1="130" y1="298" x2="290" y2="298" stroke="url(#gc)" stroke-width="1" stroke-dasharray="4 4" opacity=".35"/>
+            <!-- labels -->
+            <text x="80" y="208" text-anchor="middle" font-size="9" fill="#8899b4" font-family="DM Sans,sans-serif">Desarrollo Web</text>
+            <text x="340" y="208" text-anchor="middle" font-size="9" fill="#8899b4" font-family="DM Sans,sans-serif">Marketing</text>
+            <text x="130" y="316" text-anchor="middle" font-size="9" fill="#8899b4" font-family="DM Sans,sans-serif">SEO & Analytics</text>
+            <text x="290" y="316" text-anchor="middle" font-size="9" fill="#8899b4" font-family="DM Sans,sans-serif">Estrategia</text>
+            <!-- orbit rings -->
+            <circle cx="210" cy="86" r="48" fill="none" stroke="rgba(0,229,255,.1)" stroke-width="1" stroke-dasharray="3 6"/>
+            <circle cx="210" cy="86" r="68" fill="none" stroke="rgba(155,93,229,.07)" stroke-width="1" stroke-dasharray="3 9"/>
+            <!-- stat cards -->
+            <rect x="22" y="20" width="88" height="46" rx="8" fill="rgba(0,229,255,.07)" stroke="rgba(0,229,255,.18)" stroke-width="1"/>
+            <text x="38" y="39" font-size="8" fill="#8899b4" font-family="DM Sans,sans-serif">Proyectos</text>
+            <text x="38" y="57" font-size="15" fill="url(#gc)" font-family="Syne,sans-serif" font-weight="800">+150</text>
+            <rect x="310" y="20" width="88" height="46" rx="8" fill="rgba(155,93,229,.07)" stroke="rgba(155,93,229,.2)" stroke-width="1"/>
+            <text x="326" y="39" font-size="8" fill="#8899b4" font-family="DM Sans,sans-serif">Satisfacción</text>
+            <text x="326" y="57" font-size="15" fill="url(#gv)" font-family="Syne,sans-serif" font-weight="800">98%</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ SERVICIOS ══════════════════════ -->
+<section id="servicios">
+  <div class="glow-orb" style="width:600px;height:400px;background:rgba(0,229,255,.04);bottom:-80px;left:-100px"></div>
+  <div class="container">
+    <div class="services-header reveal">
+      <span class="tag">Servicios</span>
+      <h2 class="section-title">Todo lo que necesitas para <span class="gradient-text">crecer online</span></h2>
+      <p class="section-sub">Soluciones integrales diseñadas para impulsar tu presencia digital y convertir visitantes en clientes.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon">🌐</div>
+        <h3>Desarrollo Web & Apps</h3>
+        <p>Creamos sitios web y aplicaciones móviles a medida con tecnologías modernas como React, Next.js y Flutter. Interfaces rápidas, accesibles y escalables que convierten visitantes en clientes.</p>
+        <a href="#contacto" class="service-link">Saber más <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">📈</div>
+        <h3>Estrategia de Marketing Digital</h3>
+        <p>Diseñamos campañas de alto impacto en Google Ads, Meta, TikTok y email marketing. Conectamos tu marca con la audiencia correcta en el momento y canal adecuados para maximizar el ROI.</p>
+        <a href="#contacto" class="service-link">Saber más <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">🔍</div>
+        <h3>Optimización SEO & Analítica</h3>
+        <p>Posicionamos tu negocio en la cima de los motores de búsqueda con estrategias SEO técnico, de contenido y de enlaces. Medimos todo con dashboards de analítica en tiempo real.</p>
+        <a href="#contacto" class="service-link">Saber más <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ TESTIMONIOS ══════════════════════ -->
+<section id="testimonios">
+  <div class="glow-orb" style="width:500px;height:400px;background:rgba(155,93,229,.05);top:0;right:-100px"></div>
+  <div class="container">
+    <div class="testimonios-header reveal">
+      <span class="tag">Testimonios</span>
+      <h2 class="section-title">Lo que dicen nuestros <span class="gradient-text">clientes</span></h2>
+      <p class="section-sub">Resultados reales de empresas que confiaron en Nexus Digital para transformar su presencia online.</p>
+    </div>
+    <div class="testimonios-grid">
+
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testi-text">Nexus Digital transformó por completo nuestra plataforma e-commerce. En sólo 4 meses aumentamos las ventas online un 220% y la tasa de conversión mejoró drásticamente. Un equipo excepcional.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">
+            <svg viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="23" cy="23" r="23" fill="#1a2640"/>
+              <circle cx="23" cy="18" r="8" fill="#00e5ff" opacity=".8"/>
+              <ellipse cx="23" cy="38" rx="14" ry="10" fill="#00e5ff" opacity=".5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="testi-name">Valentina Ríos</div>
+            <div class="testi-role">CEO · TrendShop Argentina</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testi-text">La estrategia SEO de Nexus Digital nos llevó del puesto 45 al #2 en Google para nuestra keyword principal en tan solo 6 meses. El tráfico orgánico creció un 340% y los leads se multiplicaron.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">
+            <svg viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="23" cy="23" r="23" fill="#1a1630"/>
+              <circle cx="23" cy="18" r="8" fill="#9b5de5" opacity=".85"/>
+              <ellipse cx="23" cy="38" rx="14" ry="10" fill="#9b5de5" opacity=".5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="testi-name">Mateo Fuentes</div>
+            <div class="testi-role">Director de Marketing · Clínica Vitalmed</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testi-text">Desarrollaron nuestra app móvil desde cero con una UI impecable. El lanzamiento fue perfecto, los usuarios la adoran y el proceso de colaboración con el equipo fue transparente y muy profesional.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">
+            <svg viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="23" cy="23" r="23" fill="#0f1e2a"/>
+              <circle cx="23" cy="18" r="8" fill="#00b8cc" opacity=".85"/>
+              <ellipse cx="23" cy="38" rx="14" ry="10" fill="#00b8cc" opacity=".5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="testi-name">Lucía Mondragón</div>
+            <div class="testi-role">Product Owner · FinTech Klaivo</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ CONTACTO ══════════════════════ -->
+<section id="contacto">
+  <div class="glow-orb" style="width:600px;height:400px;background:rgba(0,229,255,.05);bottom:-80px;right:-80px"></div>
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <span class="tag">Contacto</span>
+        <h2>Hablemos de tu <span class="gradient-text">próximo proyecto</span></h2>
+        <p>¿Listo para llevar tu negocio al siguiente nivel? Cuéntanos tu idea y en menos de 24 horas te contactamos con una propuesta.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-item-icon">📧</div>
+            <div>
+              <strong>hola@nexusdigital.io</strong>
+              <span>Respuesta en menos de 24 horas</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div>
+              <strong>Buenos Aires, Argentina</strong>
+              <span>Trabajamos con clientes de todo el mundo</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">💬</div>
+            <div>
+              <strong>+54 11 5555-7890</strong>
+              <span>Lun–Vie, 9:00 – 18:00 (ART)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form reveal reveal-delay-1">
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Nombre completo</label>
+            <input type="text" id="name" placeholder="Tu nombre" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" placeholder="tu@email.com" autocomplete="email">
+          </div>
+        </div>
+        <div class="field">
+          <label for="asunto">Asunto</label>
+          <select id="asunto">
+            <option value="" disabled selected>Selecciona un servicio</option>
+            <option>Desarrollo Web & Apps</option>
+            <option>Marketing Digital</option>
+            <option>SEO & Analítica</option>
+            <option>Consultoría General</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" placeholder="Cuéntanos sobre tu proyecto, objetivos y plazos..."></textarea>
+        </div>
+        <button type="button" class="form-submit">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Enviar mensaje
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#inicio" class="logo">
+          <div class="logo-icon">N</div>
+          Nexus Digital
+        </a>
+        <p>Impulsamos marcas con estrategia digital, tecnología de vanguardia y creatividad sin límites.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn" aria-label="LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Twitter/X">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Servicios</h5>
+        <ul>
+          <li><a href="#servicios">Desarrollo Web</a></li>
+          <li><a href="#servicios">Apps Móviles</a></li>
+          <li><a href="#servicios">Marketing Digital</a></li>
+          <li><a href="#servicios">SEO & Analytics</a></li>
+          <li><a href="#servicios">Consultoría</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Empresa</h5>
+        <ul>
+          <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
+          <li><a href="#testimonios">Casos de Éxito</a></li>
+          <li><a href="#contacto">Blog</a></li>
+          <li><a href="#contacto">Carreras</a></li>
+          <li><a href="#contacto">Prensa</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Privacidad</a></li>
+          <li><a href="#">Términos de Uso</a></li>
+          <li><a href="#">Cookies</a></li>
+          <li><a href="#contacto">Soporte</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Nexus Digital. Todos los derechos reservados.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacidad</a>
+        <a href="#">Términos</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Header scroll effect
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ── Mobile menu
+  const burger = document.getElementById('burger');
+  const nav = document.getElementById('nav');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    nav.classList.toggle('open');
+  });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    burger.classList.remove('open');
+    nav.classList.remove('open');
+  }));
+
+  // ── Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── Form submit feedback
+  document.querySelector('.form-submit').addEventListener('click', function() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const msg = document.getElementById('mensaje').value.trim();
+    if (!name || !email || !msg) {
+      this.style.background = 'linear-gradient(135deg,#ff6b6b,#ee0979)';
+      this.textContent = '⚠ Completa los campos requeridos';
+      setTimeout(() => {
+        this.style.background = '';
+        this.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Enviar mensaje';
+      }, 2200);
+      return;
+    }
+    this.style.background = 'linear-gradient(135deg,#00c896,#00e5ff)';
+    this.textContent = '✓ ¡Mensaje enviado! Te contactamos pronto.';
+    setTimeout(() => {
+      this.style.background = '';
+      this.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Enviar mensaje';
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('mensaje').value = '';
+      document.getElementById('asunto').selectedIndex = 0;
+    }, 3000);
+  });
+
+  // ── Animated counters in hero
+  function animateCounter(el, target, suffix = '') {
+    let start = 0;
+    const duration = 1800;
+    const step = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = (suffix === '%' || suffix === '+')
+        ? (suffix === '+' ? '+' + Math.floor(eased * target) : Math.floor(eased * target) + '%')
+        : (Math.floor(eased * target) + suffix);
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  const statNums = document.querySelectorAll('.stat-num');
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        const txt = el.textContent;
+        if (txt.includes('+')) animateCounter(el, parseInt(txt.replace('+','')), '+');
+        else if (txt.includes('%')) animateCounter(el, parseInt(txt), '%');
+        statsObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  statNums.forEach(el => statsObserver.observe(el));
+</script>
+</body>
+</html>

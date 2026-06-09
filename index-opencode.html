@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nexus Digital - Agencia de servicios digitales. Transformamos tu negocio con desarrollo web, marketing digital y SEO.">
+  <title>Nexus Digital — Transformación Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: #1a1f2e;
+      --cyan: #00d4ff;
+      --violet: #7c3aed;
+      --violet-light: #a78bfa;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border: #1e293b;
+      --gradient-main: linear-gradient(135deg, var(--cyan), var(--violet));
+      --gradient-bg: linear-gradient(180deg, var(--bg-primary) 0%, #0f172a 100%);
+      --shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+      --radius: 16px;
+      --radius-sm: 8px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--gradient-bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* ===== HEADER ===== */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 16px 0;
+      transition: var(--transition);
+      background: transparent;
+    }
+    header.scrolled { background: rgba(10, 14, 26, 0.92); backdrop-filter: blur(16px); box-shadow: 0 1px 0 var(--border); }
+    header .container { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; }
+    .logo-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--gradient-main);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 900; color: #fff;
+    }
+    .logo span { background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    nav { display: flex; align-items: center; gap: 32px; }
+    nav a {
+      font-size: 0.9rem; font-weight: 500; color: var(--text-secondary);
+      position: relative; transition: var(--transition);
+    }
+    nav a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+      background: var(--gradient-main); transition: var(--transition); border-radius: 2px;
+    }
+    nav a:hover, nav a.active { color: var(--text-primary); }
+    nav a:hover::after, nav a.active::after { width: 100%; }
+    .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: var(--transition); }
+    .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; }
+    .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 120px 0 80px; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -50%; right: -30%; width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: -30%; left: -20%; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
+    .hero-text h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; line-height: 1.1;
+      letter-spacing: -1px; margin-bottom: 20px;
+    }
+    .hero-text h1 .highlight { background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-text p {
+      font-size: 1.1rem; color: var(--text-secondary); max-width: 520px;
+      margin-bottom: 36px; line-height: 1.7;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 36px; border-radius: 50px; font-weight: 600; font-size: 1rem;
+      border: none; cursor: pointer; transition: var(--transition);
+      background: var(--gradient-main); color: #fff;
+      box-shadow: 0 4px 20px rgba(0, 212, 255, 0.25);
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 212, 255, 0.35); }
+    .btn svg { width: 20px; height: 20px; transition: var(--transition); }
+    .btn:hover svg { transform: translateX(4px); }
+    .btn-outline {
+      background: transparent; border: 1.5px solid var(--border); color: var(--text-primary);
+      box-shadow: none;
+    }
+    .btn-outline:hover { border-color: var(--cyan); background: rgba(0, 212, 255, 0.06); box-shadow: none; }
+    .hero-visual { display: flex; justify-content: center; align-items: center; }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      width: 100%; max-width: 420px;
+    }
+    .hero-grid-item {
+      aspect-ratio: 1; border-radius: var(--radius);
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 24px; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      transition: var(--transition); gap: 12px;
+    }
+    .hero-grid-item:hover { border-color: var(--violet); transform: translateY(-4px); box-shadow: var(--shadow); }
+    .hero-grid-item:nth-child(1) { border-top-color: var(--cyan); }
+    .hero-grid-item:nth-child(2) { border-top-color: var(--violet); margin-top: 30px; }
+    .hero-grid-item:nth-child(3) { border-top-color: var(--violet); margin-top: -30px; }
+    .hero-grid-item:nth-child(4) { border-top-color: var(--cyan); }
+    .hero-grid-item svg { width: 32px; height: 32px; color: var(--cyan); }
+    .hero-grid-item span { font-size: 0.8rem; color: var(--text-secondary); font-weight: 500; }
+
+    .hero-stats {
+      display: flex; gap: 40px; margin-top: 48px;
+    }
+    .hero-stats div { text-align: left; }
+    .hero-stats strong { display: block; font-size: 2rem; font-weight: 800; background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-stats span { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* ===== ABOUT ===== */
+    .section { padding: 100px 0; }
+    .section-label {
+      display: inline-block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--cyan); margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800;
+      letter-spacing: -0.5px; margin-bottom: 16px;
+    }
+    .section-desc { color: var(--text-secondary); font-size: 1.05rem; max-width: 600px; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 48px; }
+    .about-text p { color: var(--text-secondary); margin-bottom: 20px; font-size: 1rem; }
+    .about-text .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+    .about-text .stats div {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 20px; text-align: center;
+    }
+    .about-text .stats div strong { display: block; font-size: 1.5rem; font-weight: 800; color: var(--cyan); }
+    .about-text .stats div span { font-size: 0.8rem; color: var(--text-muted); }
+    .about-visual {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 40px; position: relative; overflow: hidden;
+    }
+    .about-visual::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--gradient-main);
+    }
+    .about-visual-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .about-visual-item {
+      background: var(--bg-primary); border-radius: var(--radius-sm); padding: 20px;
+      border: 1px solid var(--border);
+    }
+    .about-visual-item svg { width: 28px; height: 28px; color: var(--violet); margin-bottom: 8px; }
+    .about-visual-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+    .about-visual-item p { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ===== SERVICES ===== */
+    .services { background: var(--bg-secondary); }
+    .services .section-header { text-align: center; }
+    .services .section-header .section-desc { margin: 0 auto; }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+      margin-top: 48px;
+    }
+    .service-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 36px 28px; transition: var(--transition); position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--gradient-main); opacity: 0; transition: var(--transition);
+    }
+    .service-card:hover { transform: translateY(-6px); border-color: var(--violet); box-shadow: var(--shadow); }
+    .service-card:hover::before { opacity: 1; }
+    .service-card .icon {
+      width: 56px; height: 56px; border-radius: 14px;
+      background: rgba(0, 212, 255, 0.08); border: 1px solid rgba(0, 212, 255, 0.12);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px; transition: var(--transition);
+    }
+    .service-card:hover .icon { background: rgba(0, 212, 255, 0.14); border-color: rgba(0, 212, 255, 0.25); }
+    .service-card .icon svg { width: 28px; height: 28px; color: var(--cyan); }
+    .service-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
+    .service-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials .section-header { text-align: center; }
+    .testimonials .section-header .section-desc { margin: 0 auto; }
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+      margin-top: 48px;
+    }
+    .testimonial-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 32px; transition: var(--transition); position: relative;
+    }
+    .testimonial-card:hover { border-color: var(--violet); transform: translateY(-4px); box-shadow: var(--shadow); }
+    .testimonial-card .stars { color: #fbbf24; font-size: 0.9rem; margin-bottom: 16px; letter-spacing: 2px; }
+    .testimonial-card blockquote {
+      font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;
+      margin-bottom: 20px; font-style: italic;
+    }
+    .testimonial-card blockquote::before { content: '"'; color: var(--cyan); font-size: 1.5rem; font-weight: 700; }
+    .testimonial-card blockquote::after { content: '"'; color: var(--cyan); font-size: 1.5rem; font-weight: 700; }
+    .testimonial-author { display: flex; align-items: center; gap: 14px; }
+    .testimonial-author img {
+      width: 48px; height: 48px; border-radius: 50%; object-fit: cover;
+      border: 2px solid var(--border);
+    }
+    .testimonial-author strong { display: block; font-size: 0.9rem; font-weight: 600; }
+    .testimonial-author span { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ===== CONTACT ===== */
+    .contact { background: var(--bg-secondary); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 48px; align-items: start; }
+    .contact-info h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; }
+    .contact-info p { color: var(--text-secondary); margin-bottom: 32px; }
+    .contact-info .item { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .contact-info .item svg { width: 22px; height: 22px; color: var(--cyan); flex-shrink: 0; }
+    .contact-info .item span { color: var(--text-secondary); font-size: 0.95rem; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; color: var(--text-secondary); }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 14px 18px; border-radius: var(--radius-sm);
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text-primary); font-family: inherit; font-size: 0.95rem;
+      transition: var(--transition); outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1); }
+    .form-group textarea { resize: vertical; min-height: 130px; }
+    .form-group .error { color: #ef4444; font-size: 0.8rem; margin-top: 4px; display: none; }
+    .form-group.invalid input, .form-group.invalid textarea { border-color: #ef4444; }
+    .form-group.invalid .error { display: block; }
+    .btn-submit { width: 100%; justify-content: center; }
+    .form-success {
+      display: none; background: rgba(0, 212, 255, 0.06); border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: var(--radius-sm); padding: 20px; text-align: center; margin-top: 16px;
+    }
+    .form-success.show { display: block; }
+    .form-success svg { width: 40px; height: 40px; color: var(--cyan); margin-bottom: 12px; }
+    .form-success p { color: var(--text-secondary); font-size: 0.95rem; }
+
+    /* ===== FOOTER ===== */
+    footer { padding: 60px 0 30px; border-top: 1px solid var(--border); }
+    footer .container { display: flex; flex-direction: column; gap: 40px; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; }
+    .footer-brand .logo { margin-bottom: 16px; }
+    .footer-brand p { color: var(--text-muted); font-size: 0.9rem; max-width: 320px; }
+    .footer-col h4 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-primary); margin-bottom: 16px; }
+    .footer-col a {
+      display: block; color: var(--text-muted); font-size: 0.9rem;
+      margin-bottom: 10px; transition: var(--transition);
+    }
+    .footer-col a:hover { color: var(--cyan); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 30px; border-top: 1px solid var(--border);
+    }
+    .footer-bottom p { font-size: 0.85rem; color: var(--text-muted); }
+    .social-links { display: flex; gap: 16px; }
+    .social-links a {
+      width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition); color: var(--text-muted);
+    }
+    .social-links a:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-2px); }
+    .social-links a svg { width: 18px; height: 18px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .hero-content { grid-template-columns: 1fr; text-align: center; }
+      .hero-text p { margin: 0 auto 36px; }
+      .hero-stats { justify-content: center; }
+      .hero-grid { max-width: 360px; margin: 0 auto; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-text .stats { grid-template-columns: repeat(3, 1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      nav { display: none; flex-direction: column; position: fixed; top: 68px; left: 16px; right: 16px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; gap: 20px; box-shadow: var(--shadow); }
+      nav.open { display: flex; }
+      nav a { font-size: 1rem; }
+      .menu-toggle { display: flex; }
+      .hero { padding: 100px 0 60px; min-height: auto; }
+      .hero-stats { flex-wrap: wrap; gap: 24px; }
+      .services-grid { grid-template-columns: 1fr; gap: 20px; }
+      .testimonials-grid { grid-template-columns: 1fr; gap: 20px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .about-text .stats { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .section { padding: 60px 0; }
+      .hero-grid-item { padding: 16px; }
+      .hero-grid-item svg { width: 24px; height: 24px; }
+      .about-text .stats div { padding: 14px; }
+      .about-text .stats div strong { font-size: 1.2rem; }
+      .btn { padding: 14px 28px; font-size: 0.95rem; }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .animate { animation: fadeInUp 0.6s ease forwards; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <div class="container">
+      <a href="#hero" class="logo">
+        <div class="logo-icon">N</div>
+        <span>Nexus Digital</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="nav">
+        <a href="#hero" class="active">Inicio</a>
+        <a href="#about">Sobre Nosotros</a>
+        <a href="#services">Servicios</a>
+        <a href="#testimonials">Testimonios</a>
+        <a href="#contact">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="section-label">Agencia de Servicios Digitales</div>
+          <h1>Transformamos tu <span class="highlight">presencia digital</span> en resultados reales</h1>
+          <p>En Nexus Digital combinamos estrategia, creatividad y tecnología para impulsar tu negocio al siguiente nivel. Desarrollo web, marketing digital y SEO con un enfoque centrado en resultados.</p>
+          <a href="#contact" class="btn">
+            Impulsar mi negocio
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+          <div class="hero-stats">
+            <div><strong>120+</strong><span>Proyectos entregados</span></div>
+            <div><strong>98%</strong><span>Satisfacción cliente</span></div>
+            <div><strong>5+</strong><span>Años de experiencia</span></div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-grid">
+            <div class="hero-grid-item animate delay-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+              <span>Desarrollo Web</span>
+            </div>
+            <div class="hero-grid-item animate delay-2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+              <span>Marketing Digital</span>
+            </div>
+            <div class="hero-grid-item animate delay-3">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <span>SEO & Analítica</span>
+            </div>
+            <div class="hero-grid-item animate delay-4">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+              <span>Estrategia</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-label">Sobre Nosotros</div>
+      <h2 class="section-title">Creando experiencias digitales que marcan la diferencia</h2>
+      <p class="section-desc">Somos un equipo apasionado por la tecnología y la innovación, dedicado a ayudar a empresas a crecer en el mundo digital.</p>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>En Nexus Digital creemos que cada negocio tiene una historia única que contar. Nuestra misión es traducir esa historia en una presencia digital poderosa que conecte con tu audiencia y genere resultados medibles.</p>
+          <p>Trabajamos de la mano con nuestros clientes para entender sus objetivos, desafíos y oportunidades, creando soluciones a medida que combinan diseño de vanguardia, desarrollo robusto y estrategias de marketing inteligentes.</p>
+          <div class="stats">
+            <div><strong>5+</strong><span>Años de experiencia</span></div>
+            <div><strong>120+</strong><span>Proyectos completados</span></div>
+            <div><strong>15+</strong><span>Expertos en equipo</span></div>
+          </div>
+        </div>
+        <div class="about-visual">
+          <div class="about-visual-grid">
+            <div class="about-visual-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+              <h4>Diseño UI/UX</h4>
+              <p>Interfaces intuitivas y atractivas</p>
+            </div>
+            <div class="about-visual-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              <h4>Desarrollo</h4>
+              <p>Código limpio y escalable</p>
+            </div>
+            <div class="about-visual-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+              <h4>Marketing</h4>
+              <p>Estrategias basadas en datos</p>
+            </div>
+            <div class="about-visual-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <h4>Soporte 24/7</h4>
+              <p>Siempre a tu disposición</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section services" id="services">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Nuestros Servicios</div>
+        <h2 class="section-title">Soluciones digitales integrales para tu negocio</h2>
+        <p class="section-desc">Ofrecemos un ecosistema completo de servicios digitales diseñados para impulsar tu presencia online y maximizar tus resultados.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </div>
+          <h3>Desarrollo Web & Apps</h3>
+          <p>Creamos sitios web, aplicaciones web progresivas y plataformas a medida con tecnologías modernas. Diseño responsivo, rendimiento optimizado y experiencia de usuario excepcional en todos los dispositivos.</p>
+        </div>
+        <div class="service-card">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          </div>
+          <h3>Estrategia de Marketing Digital</h3>
+          <p>Diseñamos estrategias de marketing digital personalizadas que combinan redes sociales, email marketing, contenido de valor y publicidad pagada para atraer, convertir y fidelizar clientes.</p>
+        </div>
+        <div class="service-card">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </div>
+          <h3>Optimización SEO y Analítica</h3>
+          <p>Mejoramos tu posicionamiento en buscadores con técnicas SEO éticas y sostenibles. Implementamos analítica avanzada para medir, entender y optimizar cada aspecto de tu estrategia digital.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Testimonios</div>
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+        <p class="section-desc">La satisfacción de nuestros clientes es nuestra mejor carta de presentación. Conoce sus experiencias trabajando con Nexus Digital.</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <blockquote> Nexus Digital transformó por completo nuestra presencia online. Nuestras ventas digitales aumentaron un 340% en solo 6 meses. Su enfoque estratégico y atención al detalle son extraordinarios.</blockquote>
+          <div class="testimonial-author">
+            <img src="https://ui-avatars.com/api/?name=Mar%C3%ADa+Gonz%C3%A1lez&background=7c3aed&color=fff&size=48" alt="María González" width="48" height="48" loading="lazy">
+            <div>
+              <strong>María González</strong>
+              <span>CEO — TechSolutions Inc.</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <blockquote> Trabajar con Nexus Digital ha sido una experiencia increíble. No solo entregaron un sitio web espectacular, sino que su estrategia de marketing digital superó todas nuestras expectativas.</blockquote>
+          <div class="testimonial-author">
+            <img src="https://ui-avatars.com/api/?name=Carlos+Mendoza&background=00d4ff&color=fff&size=48" alt="Carlos Mendoza" width="48" height="48" loading="lazy">
+            <div>
+              <strong>Carlos Mendoza</strong>
+              <span>Director de Marketing — GlobalShop</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <blockquote> Su servicio de SEO nos llevó a la primera página de Google en menos de 4 meses. El equipo de Nexus Digital es profesional, creativo y realmente se preocupa por los resultados de sus clientes.</blockquote>
+          <div class="testimonial-author">
+            <img src="https://ui-avatars.com/api/?name=Ana+Ram%C3%ADrez&background=8b5cf6&color=fff&size=48" alt="Ana Ramírez" width="48" height="48" loading="lazy">
+            <div>
+              <strong>Ana Ramírez</strong>
+              <span>Fundadora — GreenLife Eco</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="section-label">Contacto</div>
+      <h2 class="section-title">Hablemos de tu proyecto</h2>
+      <p class="section-desc">Cuéntanos sobre tu negocio y descubre cómo podemos ayudarte a alcanzar tus objetivos digitales.</p>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>Estamos aquí para ayudarte</h3>
+          <p>No importa en qué etapa de tu viaje digital te encuentres, queremos escucharte. Completa el formulario o contáctanos directamente a través de los siguientes canales.</p>
+          <div class="item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <span>hola@nexusdigital.com</span>
+          </div>
+          <div class="item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>Av. Corrientes 1234, Buenos Aires, Argentina</span>
+          </div>
+          <div class="item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>+54 11 5555-0123</span>
+          </div>
+        </div>
+        <form id="contactForm" novalidate>
+          <div class="form-group">
+            <label for="name">Nombre completo</label>
+            <input type="text" id="name" placeholder="Ej: Juan Pérez" required>
+            <div class="error">Por favor, ingresa tu nombre completo.</div>
+          </div>
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" placeholder="Ej: juan@ejemplo.com" required>
+            <div class="error">Por favor, ingresa un correo electrónico válido.</div>
+          </div>
+          <div class="form-group">
+            <label for="subject">Asunto</label>
+            <input type="text" id="subject" placeholder="Ej: Proyecto de desarrollo web" required>
+            <div class="error">Por favor, ingresa un asunto.</div>
+          </div>
+          <div class="form-group">
+            <label for="message">Mensaje</label>
+            <textarea id="message" placeholder="Cuéntanos sobre tu proyecto..." required></textarea>
+            <div class="error">Por favor, ingresa tu mensaje.</div>
+          </div>
+          <button type="submit" class="btn btn-submit">Enviar mensaje</button>
+          <div class="form-success" id="formSuccess">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <p>Mensaje enviado con éxito. Nos pondremos en contacto contigo pronto.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#hero" class="logo">
+            <div class="logo-icon">N</div>
+            <span>Nexus Digital</span>
+          </a>
+          <p>Transformamos negocios a través de soluciones digitales innovadoras. Diseño, desarrollo y estrategia para llevar tu marca al siguiente nivel.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <a href="#hero">Inicio</a>
+          <a href="#about">Sobre Nosotros</a>
+          <a href="#services">Servicios</a>
+          <a href="#testimonials">Testimonios</a>
+          <a href="#contact">Contacto</a>
+        </div>
+        <div class="footer-col">
+          <h4>Síguenos</h4>
+          <a href="#">LinkedIn</a>
+          <a href="#">Twitter / X</a>
+          <a href="#">Instagram</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Nexus Digital. Todos los derechos reservados.</p>
+        <div class="social-links">
+          <a href="#" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+          </a>
+          <a href="#" aria-label="Twitter / X">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const header = document.getElementById('header');
+      const menuToggle = document.getElementById('menuToggle');
+      const nav = document.getElementById('nav');
+      const navLinks = nav.querySelectorAll('a');
+      const form = document.getElementById('contactForm');
+      const formSuccess = document.getElementById('formSuccess');
+
+      // Header scroll effect
+      let lastScroll = 0;
+      window.addEventListener('scroll', function () {
+        const y = window.scrollY;
+        header.classList.toggle('scrolled', y > 40);
+        lastScroll = y;
+      }, { passive: true });
+
+      // Mobile menu toggle
+      menuToggle.addEventListener('click', function () {
+        const open = nav.classList.toggle('open');
+        menuToggle.classList.toggle('active');
+        menuToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      });
+
+      // Close menu on link click
+      navLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+          nav.classList.remove('open');
+          menuToggle.classList.remove('active');
+          menuToggle.setAttribute('aria-label', 'Abrir menú');
+          // Update active link
+          navLinks.forEach(function (l) { l.classList.remove('active'); });
+          link.classList.add('active');
+        });
+      });
+
+      // Active link on scroll
+      const sections = document.querySelectorAll('section[id]');
+      window.addEventListener('scroll', function () {
+        let current = '';
+        sections.forEach(function (sec) {
+          const top = sec.offsetTop - 150;
+          if (window.scrollY >= top) current = sec.getAttribute('id');
+        });
+        navLinks.forEach(function (l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+        });
+      }, { passive: true });
+
+      // Form validation
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        let valid = true;
+        const fields = [
+          { id: 'name', validate: function (v) { return v.trim().length >= 3; } },
+          { id: 'email', validate: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); } },
+          { id: 'subject', validate: function (v) { return v.trim().length >= 3; } },
+          { id: 'message', validate: function (v) { return v.trim().length >= 10; } }
+        ];
+        fields.forEach(function (f) {
+          const el = document.getElementById(f.id);
+          const group = el.closest('.form-group');
+          if (!f.validate(el.value)) {
+            group.classList.add('invalid');
+            valid = false;
+          } else {
+            group.classList.remove('invalid');
+          }
+        });
+        if (valid) {
+          formSuccess.classList.add('show');
+          form.reset();
+          setTimeout(function () { formSuccess.classList.remove('show'); }, 5000);
+        }
+      });
+
+      // Real-time validation on input
+      form.querySelectorAll('input, textarea').forEach(function (el) {
+        el.addEventListener('input', function () {
+          const group = el.closest('.form-group');
+          if (group.classList.contains('invalid')) {
+            if (el.value.trim().length >= (el.id === 'message' ? 10 : 3)) {
+              group.classList.remove('invalid');
+            }
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
