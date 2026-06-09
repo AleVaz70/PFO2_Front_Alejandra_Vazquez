@@ -8,7 +8,7 @@
 ---
 
 ### Link al Deploy Unificado
-- **URL del Proyecto:** 
+- **URL del Proyecto:** pfo-2-front-alejandra-vazquez-524d5tgyx-alevaz70s-projects.vercel.app
 
 ---
 
